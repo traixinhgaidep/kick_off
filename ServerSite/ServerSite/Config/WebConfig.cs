@@ -19,8 +19,8 @@ namespace ServerSite
             //    routeTemplate: "api/{controller}/{id}",
             //    defaults: new { id = RouteParameter.Optional }
             //);
+            config.DependencyResolver = new UnityDependencyResolver(UnityConfig.Container);
             config.Routes.MapHttpRoute("ApiById", "api/{controller}/{id}", new { id = RouteParameter.Optional });
-            config.DependencyResolver = new UnityDependencyResolver(UnityConfig.GetConfiguredContainer());
             return config;
         }
     }

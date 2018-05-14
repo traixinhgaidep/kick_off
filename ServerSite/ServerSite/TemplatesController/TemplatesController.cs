@@ -10,15 +10,10 @@ namespace ServerSite
     [RoutePrefix("api/templates")]
     public class TemplatesController : ApiController
     {
-        protected DataFake _data;
-        public TemplatesController(DataFake data)
-        {
-            _data = data;
-        }
         // GET api/templates 
-        public IEnumerable<User> Get()
+        public IEnumerable<string> Get()
         {
-            return _data.GetDataUser();
+            return new string[] { "xxxx", "xxxx" };
         }
 
         // GET api/templates/5 

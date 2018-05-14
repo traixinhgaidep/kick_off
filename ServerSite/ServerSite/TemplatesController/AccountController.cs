@@ -15,12 +15,6 @@ namespace ServerSite
     [Authorize]
     public class AccountController : ApiController
     {
-        DataFake _data;
-        public AccountController(DataFake data)
-        {
-            _data = data;
-        }
-
         // GET api/account
         public IEnumerable<string> Get()
         {
@@ -51,36 +45,36 @@ namespace ServerSite
             }
         }
 
-        [HttpPost]
-        [ActionName("login")]
-        [AllowAnonymous]
-        public async Task<IHttpActionResult> Login([FromUri]string username, [FromUri] string password)
-        {
-            try
-            {
+        //[HttpPost]
+        //[ActionName("login")]
+        //[AllowAnonymous]
+        //public async Task<IHttpActionResult> Login([FromUri]string username, [FromUri] string password)
+        //{
+        //    try
+        //    {
 
-                var user = _data.GetDataUser().FirstOrDefault(o => o.UserName.Equals(username) && o.Password.Equals(password));
-                if (user == null)
-                {
+        //        var user = _data.GetDataUser().FirstOrDefault(o => o.UserName.Equals(username) && o.Password.Equals(password));
+        //        if (user == null)
+        //        {
 
-                }
-                var resultInfo = await HttpClientPostAsync(ControllerContext.Request.RequestUri.GetLeftPart(UriPartial.Authority), "token", new FormUrlEncodedContent(new List<KeyValuePair<string, string>>
-                    {
-                        new KeyValuePair<string, string>("login_type", "auth"),
-                        new KeyValuePair<string, string>("username", username),
-                        new KeyValuePair<string, string>("password", password),
-                        new KeyValuePair<string, string>("grant_type", "password")
-                    }));
+        //        }
+        //        var resultInfo = await HttpClientPostAsync(ControllerContext.Request.RequestUri.GetLeftPart(UriPartial.Authority), "token", new FormUrlEncodedContent(new List<KeyValuePair<string, string>>
+        //            {
+        //                new KeyValuePair<string, string>("login_type", "auth"),
+        //                new KeyValuePair<string, string>("username", username),
+        //                new KeyValuePair<string, string>("password", password),
+        //                new KeyValuePair<string, string>("grant_type", "password")
+        //            }));
 
-                if (resultInfo.HasError) throw new Exception();
-                var responseObject = JsonConvert.DeserializeObject<dynamic>(resultInfo.Result);
-                return Ok(responseObject);
-            }
-            catch (Exception ex)
-            {
-                return Ok();
-            }
-        }
+        //        if (resultInfo.HasError) throw new Exception();
+        //        var responseObject = JsonConvert.DeserializeObject<dynamic>(resultInfo.Result);
+        //        return Ok(responseObject);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Ok();
+        //    }
+        //}
 
     }
 }

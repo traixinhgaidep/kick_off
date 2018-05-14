@@ -1,5 +1,7 @@
 ﻿using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
+using Ss.Data.Models;
+using Ss.Data.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +16,11 @@ namespace ServerSite
         private const string LoginTypeKey = "login_type";
         private const string ClientTypeKey = "client_type";
         private const string HeaderKey = "Access-Control-Allow-Origin";
-        protected DataFake _data;
+        private readonly IRepository<User> _repository;
 
-        public OptionOAuthAuthorizationServerProvider(DataFake data)
+        public OptionOAuthAuthorizationServerProvider(IRepository<User> repository)
         {
-            _data = data;
+            _repository = repository;
         }
 
         public override Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
@@ -32,7 +34,7 @@ namespace ServerSite
         public override Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
             //var user = DataFake.GetDataUser().FirstOrDefault(o => o.UserName.Equals(context.UserName) && o.Password.Equals(context.Password));
-            var user = _data.GetDataUser().FirstOrDefault(o => o.UserName.Equals(context.UserName) && o.Password.Equals(context.Password));
+            var user = _repository.Get().FirstOrDefault(o => o.UserName.Equals(context.UserName) && o.Password.Equals(context.Password));
             if (user == null)
             {
                 return Task.FromResult<object>(null);

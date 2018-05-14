@@ -10,7 +10,7 @@ namespace Ss.Data.Models
     public class User : BaseEntity
     {
         public User()
-            : base("NV")
+            : base("Code")
         {
 
         }
