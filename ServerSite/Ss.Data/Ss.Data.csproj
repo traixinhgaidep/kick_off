@@ -43,8 +43,11 @@
     <Compile Include="Enums\Actflg.cs" />
     <Compile Include="Enums\Permission.cs" />
     <Compile Include="Interfaces\IEntity.cs" />
+    <Compile Include="Interfaces\IViewEntity.cs" />
     <Compile Include="Models\BaseEntity.cs" />
+    <Compile Include="ModelViews\BaseViewEntity.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="ModelViews\UserView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

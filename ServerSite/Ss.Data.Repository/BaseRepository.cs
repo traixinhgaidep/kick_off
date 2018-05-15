@@ -44,6 +44,16 @@ namespace Ss.Data.Repository
             }
         }
 
+        public T GetSingle(Expression<Func<T, bool>> predicate)
+        {
+            IQueryable<T> query = dbSet;
+            if (predicate != null)
+            {
+                query = query.Where(predicate);
+            }
+            return query.First();
+        }
+
         public void Save()
         {
             context.SaveChanges();

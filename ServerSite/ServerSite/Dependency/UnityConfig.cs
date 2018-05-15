@@ -3,6 +3,8 @@ using Ss.Data.Enums;
 using Ss.Data.Models;
 using Ss.Data.Repository;
 using Ss.Data.Repository.Interfaces;
+using Ss.Service;
+using Ss.Service.Interfaces;
 using System;
 using Unity;
 
@@ -15,7 +17,7 @@ namespace ServerSite.Dependency
     {
         #region Unity Container
 
-        public static Lazy<IUnityContainer> container = new Lazy<IUnityContainer>(() =>
+        private static Lazy<IUnityContainer> container = new Lazy<IUnityContainer>(() =>
         {
             var container = new UnityContainer();
             RegisterTypes(container);
@@ -80,10 +82,10 @@ namespace ServerSite.Dependency
             #endregion
 
 
-            #region Register services
+            #region Register Services
 
-
-
+            container.RegisterType<IUserService, UserService>();
+           
             #endregion
 
         }

@@ -12,6 +12,8 @@ namespace Ss.Data.Repository.Interfaces
     {
         IEnumerable<T> Get(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includeProperties = "");
 
+        T GetSingle(Expression<Func<T, bool>> predicate);
+
         void Save();
     }
 }

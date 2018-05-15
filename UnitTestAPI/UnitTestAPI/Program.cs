@@ -65,7 +65,7 @@ namespace UnitTestAPI
             {
                 client.DefaultRequestHeaders.Authorization =
                 new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-                var response = client.GetAsync(baseAddress + "api/account").Result;
+                var response = client.GetAsync(baseAddress + "api/user/getall").Result;
                 return response.Content.ReadAsStringAsync().Result;
             }
         }
