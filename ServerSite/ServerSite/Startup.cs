@@ -2,11 +2,9 @@
 using Microsoft.Owin.Security.OAuth;
 using Owin;
 using ServerSite.Dependency;
+using Ss.Data.Repository.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Unity;  //use load Resolve
 
 namespace ServerSite
 {
@@ -23,7 +21,7 @@ namespace ServerSite
                 TokenEndpointPath = new PathString("/token"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(14),
                 //AuthorizeEndpointPath = new PathString("/api/Account/ExternalLogin"),
-                Provider = new OptionOAuthAuthorizationServerProvider(new DataFake())
+                Provider = new OptionOAuthAuthorizationServerProvider(UnityConfig.Container.Resolve<IRepositoryContext>().UserRepository)
             };
 
             OAuthBearerOptions = new OAuthBearerAuthenticationOptions();

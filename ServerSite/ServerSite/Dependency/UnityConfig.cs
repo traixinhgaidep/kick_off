@@ -1,10 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using Ss.Data.Enums;
+using Ss.Data.Models;
+using Ss.Data.Repository;
+using Ss.Data.Repository.Interfaces;
+using Ss.Service;
+using Ss.Service.Interfaces;
+using System;
 using Unity;
-using Unity.Injection;
 
 namespace ServerSite.Dependency
 {
@@ -15,8 +17,7 @@ namespace ServerSite.Dependency
     {
         #region Unity Container
 
-        private static Lazy<IUnityContainer>
-        container = new Lazy<IUnityContainer>(() =>
+        private static Lazy<IUnityContainer> container = new Lazy<IUnityContainer>(() =>
         {
             var container = new UnityContainer();
             RegisterTypes(container);
@@ -26,9 +27,9 @@ namespace ServerSite.Dependency
         /// <summary>
         /// Gets the configured Unity container.
         /// </summary>
-        public static IUnityContainer GetConfiguredContainer()
+        public static IUnityContainer Container
         {
-            return container.Value;
+            get { return container.Value; }
         }
 
         #endregion Unity Container
@@ -39,16 +40,54 @@ namespace ServerSite.Dependency
         /// such as controllers or API controllers (unless you want to
         /// change the defaults), as Unity allows resolving a concrete type
         /// even if it was not previously registered.</remarks>
-        public static void RegisterTypes(IUnityContainer container)
+        private static void RegisterTypes(IUnityContainer container)
         {
             // NOTE: To load from web.config uncomment the line below.
             // Make sure to add a Microsoft.Practices.Unity.Configuration to the using statements.
             // container.LoadConfiguration();
 
-            // TODO: Register your types here
-            container.RegisterInstance(new DataFake());
-            //container.RegisterType<AccountController>();
-            //container.RegisterType<IDataFake, DataFake>();
+            #region  Register Conntect database
+
+            var database = new DatabaseContext();
+            var userDefault = new User()
+            {
+                UserName = "admin",
+                Password = "123456789",
+                FullName = "admin",
+                Permission = Permission.Admin,
+                Actflg = Actflg.Active
+            };
+            bool checkUserDefault = false;
+            try
+            {
+                checkUserDefault = database.Users.Find(1) != null;
+            }
+            catch (Exception ex) { }
+
+            if (!checkUserDefault)
+            {
+                database.Users.Add(userDefault);
+                database.SaveChanges();
+            }
+
+            container.RegisterInstance(database);
+
+
+            #endregion
+
+            #region Register database context
+
+            container.RegisterType<IRepositoryContext, RepositoryContext>();
+
+            #endregion
+
+
+            #region Register Services
+
+            container.RegisterType<IUserService, UserService>();
+           
+            #endregion
+
         }
     }
 }

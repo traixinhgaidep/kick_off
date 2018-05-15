@@ -14,8 +14,8 @@ namespace UnitTestAPI
         static string baseAddress = "http://localhost:3773/";
         static void Main(string[] args)
         {
-            string userName = "Phongnv1";
-            string password = "12345";
+            string userName = "admin";
+            string password = "123456789";
 
             Dictionary<string, string> token = GetToken(userName, password);
             Console.WriteLine("");
@@ -65,7 +65,7 @@ namespace UnitTestAPI
             {
                 client.DefaultRequestHeaders.Authorization =
                 new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-                var response = client.GetAsync(baseAddress + "api/account").Result;
+                var response = client.GetAsync(baseAddress + "api/user/getall").Result;
                 return response.Content.ReadAsStringAsync().Result;
             }
         }

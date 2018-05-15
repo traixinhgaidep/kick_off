@@ -22,11 +22,11 @@ namespace ServerSite
 
                 Console.WriteLine("Server open " + baseAddress);
 
-                var response = client.GetAsync(baseAddress + "api/templates").Result;
+                //var response = client.GetAsync(baseAddress + "api/templates").Result;
                 //var response = client.GetAsync(baseAddress + "api/account").Result;
 
-                Console.WriteLine(response);
-                Console.WriteLine(response.Content.ReadAsStringAsync().Result);
+                //Console.WriteLine(response);
+                //Console.WriteLine(response.Content.ReadAsStringAsync().Result);
                 Console.ReadLine();
             }
         }
