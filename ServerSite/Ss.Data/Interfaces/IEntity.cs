@@ -11,8 +11,8 @@ namespace Ss.Data.Interfaces
     {
         int Id { get; set; }
         //string Code { get; }
-        DateTime CreatedDate { get; set; }
-        DateTime? ModifiedDate { get; set; }
+        //DateTime CreatedDate { get; set; }
+        //DateTime? ModifiedDate { get; set; }
         Actflg Actflg { get; set; }
     }
 }

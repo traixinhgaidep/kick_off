@@ -10,7 +10,7 @@ namespace Ss.Data.Repository
 {
     public class DatabaseContext : DbContext
     {
-        public DatabaseContext(string databaseName) : base(databaseName)
+        public DatabaseContext() : base("name=DatabaseServerSite")
         {
 
         }

@@ -1,4 +1,6 @@
 ﻿
+using Ss.Data.Enums;
+using Ss.Data.Models;
 using Ss.Data.Repository;
 using Ss.Data.Repository.Interfaces;
 using System;
@@ -44,9 +46,30 @@ namespace ServerSite.Dependency
 
             #region  Register Conntect database
 
-            var database = new DatabaseContext("DbPhongnv3773");
+            var database = new DatabaseContext();
+            var userDefault = new User()
+            {
+                UserName = "admin",
+                Password = "123456789",
+                FullName = "admin",
+                Permission = Permission.Admin,
+                Actflg = Actflg.Active
+            };
+            bool checkUserDefault = false;
+            try
+            {
+                checkUserDefault = database.Users.Find(1) != null;
+            }
+            catch (Exception ex) { }
+
+            if (!checkUserDefault)
+            {
+                database.Users.Add(userDefault);
+                database.SaveChanges();
+            }
 
             container.RegisterInstance(database);
+
 
             #endregion
 
