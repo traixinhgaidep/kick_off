@@ -33,7 +33,7 @@ namespace ServerSite
 
         public override Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
-            //var user = DataFake.GetDataUser().FirstOrDefault(o => o.UserName.Equals(context.UserName) && o.Password.Equals(context.Password));
+
             var user = _repository.Get().FirstOrDefault(o => o.UserName.Equals(context.UserName) && o.Password.Equals(context.Password));
             if (user == null)
             {
