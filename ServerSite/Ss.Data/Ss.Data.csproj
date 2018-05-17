@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -42,9 +43,14 @@
   <ItemGroup>
     <Compile Include="Enums\Actflg.cs" />
     <Compile Include="Enums\Permission.cs" />
+    <Compile Include="Enums\ScopeView.cs" />
     <Compile Include="Interfaces\IEntity.cs" />
     <Compile Include="Interfaces\IViewEntity.cs" />
     <Compile Include="Models\BaseEntity.cs" />
+    <Compile Include="Models\AccessControl\GroupUser.cs" />
+    <Compile Include="Models\AccessControl\AccessPermission.cs" />
+    <Compile Include="Models\AccessControl\Role.cs" />
+    <Compile Include="Models\AccessControl\RoleAccessPermission.cs" />
     <Compile Include="ModelViews\BaseViewEntity.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="ModelViews\UserView.cs" />

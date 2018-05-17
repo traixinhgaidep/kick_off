@@ -1,4 +1,5 @@
-﻿using Ss.Data.Models;
+﻿using ServerSite.Dependency;
+using Ss.Data.Models;
 using Ss.Data.ModelViews;
 using Ss.Service.Interfaces;
 using System;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Unity;
 
 namespace ServerSite.Controllers
 {
@@ -14,15 +16,17 @@ namespace ServerSite.Controllers
        where TModel : BaseEntity, new()
        where TView : BaseViewEntity, new()
     {
+        protected readonly IUnityContainer _unityContainer;
         protected IService<TModel, TView> _service { get; set; }
         protected BaseController(IService<TModel, TView> service)
         {
             _service = service;
+            _unityContainer = UnityConfig.Container;
         }
 
         [HttpGet]
         [ActionName("getall")]
-        public IHttpActionResult GetAll()
+        public virtual IHttpActionResult GetAll()
         {
             try
             {

@@ -6,6 +6,7 @@ using Ss.Data.Repository.Interfaces;
 using Ss.Service;
 using Ss.Service.Interfaces;
 using System;
+using System.Collections.Generic;
 using Unity;
 
 namespace ServerSite.Dependency
@@ -49,14 +50,50 @@ namespace ServerSite.Dependency
             #region  Register Conntect database
 
             var database = new DatabaseContext();
+
+            var accessPermission = new AccessPermission()
+            {
+                Actflg = Actflg.Active,
+                AccessPermissionDescription = "user-getall"
+            };
+
+            var role = new Role()
+            {
+                RoleName = "Root",
+                Actflg = Actflg.Active,
+                RoleDescription = "Root"
+            };
+
+            var roleAccessPermission = new RoleAccessPermission()
+            {
+                AccessPermission = accessPermission,
+                Role = role,
+                ScopeView = ScopeView.All
+            };
+
+            var groupUser = new GroupUser()
+            {
+                GroupUserName = "Root",
+                Actflg = Actflg.Active
+            };
+
             var userDefault = new User()
             {
                 UserName = "admin",
                 Password = "123456789",
                 FullName = "admin",
                 Permission = Permission.Admin,
-                Actflg = Actflg.Active
+                Actflg = Actflg.Active,
+                Roles = new List<Role>()
+                {
+                    role
+                },
+                GroupUsers = new List<GroupUser>()
+                {
+                    groupUser
+                }
             };
+
             bool checkUserDefault = false;
             try
             {
@@ -85,7 +122,7 @@ namespace ServerSite.Dependency
             #region Register Services
 
             container.RegisterType<IUserService, UserService>();
-           
+
             #endregion
 
         }

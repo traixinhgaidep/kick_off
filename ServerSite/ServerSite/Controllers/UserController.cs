@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using ServerSite.ActionFilters;
 using ServerSite.Dependency;
 using Ss.Data.Models;
 using Ss.Data.ModelViews;
@@ -21,6 +22,7 @@ namespace ServerSite.Controllers
     {
         public UserController(IUserService userService) : base(userService)
         {
+
         }
 
         [NonAction]
@@ -74,6 +76,12 @@ namespace ServerSite.Controllers
             {
                 return Ok();
             }
+        }
+
+        [RbacAuthorizeAttribute]
+        public override IHttpActionResult GetAll()
+        {
+            return base.GetAll();
         }
 
     }

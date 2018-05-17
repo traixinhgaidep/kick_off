@@ -13,7 +13,7 @@ namespace Ss.Data.Repository.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201805150423517_InitialCreate"; }
+            get { return "201805170454374_InitialCreate"; }
         }
         
         string IMigrationMetadata.Source

@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Ss.Data.Enums
 {
-    public enum Actflg
+    public enum ScopeView
     {
-        Active,
-        InActive,
+        All,
+        Team,
+        Personal
     }
 }
