@@ -40,6 +40,7 @@ namespace Ss.Data.Repository.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         RoleName = c.String(nullable: false),
                         RoleDescription = c.String(),
+                        IsSysAdmin = c.Boolean(nullable: false),
                         Actflg = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);

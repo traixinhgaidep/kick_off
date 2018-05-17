@@ -14,7 +14,7 @@ namespace UnitTestAPI
         static string baseAddress = "http://localhost:3773/";
         static void Main(string[] args)
         {
-            string userName = "admin";
+            string userName = "phongnv3773@gmail.com";
             string password = "123456789";
 
             Dictionary<string, string> token = GetToken(userName, password);

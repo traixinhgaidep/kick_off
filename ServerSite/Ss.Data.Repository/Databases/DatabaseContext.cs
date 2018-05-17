@@ -13,7 +13,7 @@ namespace Ss.Data.Repository
     {
         public DatabaseContext() : base("name=DatabaseServerSite")
         {
-
+            Database.SetInitializer(new DBContextInitializer());
         }
 
         public virtual DbSet<AccessPermission> AccessPermissions { get; set; }

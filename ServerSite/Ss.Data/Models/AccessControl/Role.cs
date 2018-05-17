@@ -21,7 +21,7 @@ namespace Ss.Data.Models
         public string RoleName { get; set; }
 
         public string RoleDescription { get; set; }
-        //public bool IsSysAdmin { get; set; }
+        public bool IsSysAdmin { get; set; }
 
         public virtual ICollection<RoleAccessPermission> RoleAccessPermissions { get; set; }
         public virtual ICollection<User> Users { get; set; }
