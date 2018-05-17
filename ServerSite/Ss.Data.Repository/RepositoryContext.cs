@@ -26,5 +26,23 @@ namespace Ss.Data.Repository
                 return _userRepository ?? (_userRepository = new BaseRepository<User>(context));
             }
         }
+
+        private static IRepository<AccessPermission> _accessPermissionRepository;
+        public IRepository<AccessPermission> AccessPermissionRepository
+        {
+            get
+            {
+                return _accessPermissionRepository ?? (_accessPermissionRepository = new BaseRepository<AccessPermission>(context));
+            }
+        }
+
+        private static IRepository<RoleAccessPermission> _roleAccessPermissionRepository;
+        public IRepository<RoleAccessPermission> RoleAccessPermissionRepository
+        {
+            get
+            {
+                return _roleAccessPermissionRepository ?? (_roleAccessPermissionRepository = new BaseRepository<RoleAccessPermission>(context));
+            }
+        }
     }
 }

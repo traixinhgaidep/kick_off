@@ -78,7 +78,7 @@ namespace ServerSite.Controllers
             }
         }
 
-        [RbacAuthorizeAttribute]
+        [RbacAuthorize]
         public override IHttpActionResult GetAll()
         {
             return base.GetAll();

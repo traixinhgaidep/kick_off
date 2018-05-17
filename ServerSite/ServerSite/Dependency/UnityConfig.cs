@@ -79,9 +79,9 @@ namespace ServerSite.Dependency
 
             var userDefault = new User()
             {
-                UserName = "admin",
+                UserName = "phongnv3773@gmail.com",
                 Password = "123456789",
-                FullName = "admin",
+                FullName = "Phongnv",
                 Permission = Permission.Admin,
                 Actflg = Actflg.Active,
                 Roles = new List<Role>()
@@ -103,6 +103,7 @@ namespace ServerSite.Dependency
 
             if (!checkUserDefault)
             {
+                database.RoleAccessPermissions.Add(roleAccessPermission);
                 database.Users.Add(userDefault);
                 database.SaveChanges();
             }
