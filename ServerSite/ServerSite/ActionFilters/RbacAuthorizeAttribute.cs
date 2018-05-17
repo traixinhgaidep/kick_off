@@ -25,11 +25,10 @@ namespace ServerSite.ActionFilters
             string requiredPermission = String.Format("{0}-{1}", actionContext.ActionDescriptor.ControllerDescriptor.ControllerName.ToLower(), actionContext.ActionDescriptor.ActionName.ToLower());
 
             var principal = actionContext.RequestContext.Principal as ClaimsPrincipal;
-            var userName = principal.Identity.Name;
 
-            if (!string.IsNullOrEmpty(userName))
+            if (principal != null)
             {
-                RbacUser requestingUser = new RbacUser(userName);
+                RbacUser requestingUser = new RbacUser(principal.Identity.Name);
 
                 if (!requestingUser.HasPermission(requiredPermission) & !requestingUser.IsSysAdmin)
                 {
