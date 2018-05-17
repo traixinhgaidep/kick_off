@@ -62,9 +62,26 @@ namespace Ss.Data.Repository.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
+                        GroupUserName = c.String(nullable: false),
                         Actflg = c.Int(nullable: false),
+                        GroupUserParent_Id = c.Int(),
                     })
-                .PrimaryKey(t => t.Id);
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.GroupUsers", t => t.GroupUserParent_Id)
+                .Index(t => t.GroupUserParent_Id);
+            
+            CreateTable(
+                "dbo.GroupUserUser",
+                c => new
+                    {
+                        GroupUser_Id = c.Int(nullable: false),
+                        User_Id = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => new { t.GroupUser_Id, t.User_Id })
+                .ForeignKey("dbo.GroupUsers", t => t.GroupUser_Id, cascadeDelete: true)
+                .ForeignKey("dbo.Users", t => t.User_Id, cascadeDelete: true)
+                .Index(t => t.GroupUser_Id)
+                .Index(t => t.User_Id);
             
             CreateTable(
                 "dbo.UserRole",
@@ -86,12 +103,19 @@ namespace Ss.Data.Repository.Migrations
             DropForeignKey("dbo.RoleAccessPermissions", "Role_Id", "dbo.Roles");
             DropForeignKey("dbo.UserRole", "Role_Id", "dbo.Roles");
             DropForeignKey("dbo.UserRole", "User_Id", "dbo.Users");
+            DropForeignKey("dbo.GroupUserUser", "User_Id", "dbo.Users");
+            DropForeignKey("dbo.GroupUserUser", "GroupUser_Id", "dbo.GroupUsers");
+            DropForeignKey("dbo.GroupUsers", "GroupUserParent_Id", "dbo.GroupUsers");
             DropForeignKey("dbo.RoleAccessPermissions", "AccessPermission_Id", "dbo.AccessPermissions");
             DropIndex("dbo.UserRole", new[] { "Role_Id" });
             DropIndex("dbo.UserRole", new[] { "User_Id" });
+            DropIndex("dbo.GroupUserUser", new[] { "User_Id" });
+            DropIndex("dbo.GroupUserUser", new[] { "GroupUser_Id" });
+            DropIndex("dbo.GroupUsers", new[] { "GroupUserParent_Id" });
             DropIndex("dbo.RoleAccessPermissions", new[] { "Role_Id" });
             DropIndex("dbo.RoleAccessPermissions", new[] { "AccessPermission_Id" });
             DropTable("dbo.UserRole");
+            DropTable("dbo.GroupUserUser");
             DropTable("dbo.GroupUsers");
             DropTable("dbo.Users");
             DropTable("dbo.Roles");

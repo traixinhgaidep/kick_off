@@ -71,6 +71,12 @@ namespace ServerSite.Dependency
                 ScopeView = ScopeView.All
             };
 
+            var groupUser = new GroupUser()
+            {
+                GroupUserName = "Root",
+                Actflg = Actflg.Active
+            };
+
             var userDefault = new User()
             {
                 UserName = "admin",
@@ -78,7 +84,14 @@ namespace ServerSite.Dependency
                 FullName = "admin",
                 Permission = Permission.Admin,
                 Actflg = Actflg.Active,
-                Roles = new List<Role>() { role }
+                Roles = new List<Role>()
+                {
+                    role
+                },
+                GroupUsers = new List<GroupUser>()
+                {
+                    groupUser
+                }
             };
 
             bool checkUserDefault = false;

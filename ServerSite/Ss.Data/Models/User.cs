@@ -15,6 +15,7 @@ namespace Ss.Data.Models
         public User()
         {
             Roles = new HashSet<Role>();
+            GroupUsers = new HashSet<GroupUser>();
         }
 
         public string UserName { get; set; }
@@ -23,5 +24,6 @@ namespace Ss.Data.Models
         public Permission Permission { get; set; }
 
         public virtual ICollection<Role> Roles { get; set; }
+        public virtual ICollection<GroupUser> GroupUsers { get; set; }
     }
 }
