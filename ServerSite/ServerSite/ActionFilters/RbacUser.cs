@@ -1,4 +1,5 @@
 ﻿using ServerSite.Dependency;
+using Ss.Core.RedisCache;
 using Ss.Data.Enums;
 using Ss.Data.Models;
 using Ss.Data.Repository.Interfaces;
@@ -42,46 +43,57 @@ namespace ServerSite.ActionFilters
         private void GetDatabaseUserRolesPermissions()
         {
             IRepositoryContext context = UnityConfig.Container.Resolve<IRepositoryContext>();
+            ICacheProvider cacheRedisProvider = UnityConfig.Container.Resolve<ICacheProvider>();
 
-            User _user = context.UserRepository.Get().Where(u => u.UserName == this.Username).FirstOrDefault();
-            if (_user != null && _user.Actflg == Actflg.Active)
+            bool checkMember = cacheRedisProvider.IsInCache(Username);
+            if (true)
             {
-                Role isRoleRoot = _user.Roles.FirstOrDefault(r => r.RoleName == "Root");
-                if (isRoleRoot != null)
+                User _user = context.UserRepository.Get().Where(u => u.UserName == this.Username).FirstOrDefault();
+                if (_user != null && _user.Actflg == Actflg.Active)
                 {
-                    // Add full permistion for Root Admin
-                    UserRole _userRole = new UserRole { Role_Id = isRoleRoot.Id, RoleName = isRoleRoot.RoleName };
-                    foreach (AccessPermission role_permission in context.AccessPermissionRepository.Get())
+                    Role isRoleRoot = _user.Roles.FirstOrDefault(r => r.RoleName == "Root");
+                    if (isRoleRoot != null)
                     {
-                        _userRole.Permissions.Add(new RolePermission { Permission_Id = role_permission.Id, PermissionDescription = role_permission.AccessPermissionDescription });
-                    }
-                    this.Roles.Add(_userRole);
-                }
-                else
-                {
-                    User_Id = _user.Id;
-                    foreach (Role _role in _user.Roles)
-                    {
-                        UserRole _userRole = new UserRole { Role_Id = _role.Id, RoleName = _role.RoleName };
-
-                        var roleAccessPermissions = context.RoleAccessPermissionRepository.Get().Where(role => role.Role.Id == _role.Id);
-
-                        foreach (RoleAccessPermission rolePermission in roleAccessPermissions)
+                        // Add full permistion for Root Admin
+                        UserRole _userRole = new UserRole { Role_Id = isRoleRoot.Id, RoleName = isRoleRoot.RoleName };
+                        foreach (AccessPermission role_permission in context.AccessPermissionRepository.Get())
                         {
-                            _userRole.Permissions.Add(new RolePermission { Permission_Id = rolePermission.AccessPermission.Id, PermissionDescription = rolePermission.AccessPermission.AccessPermissionDescription });
+                            _userRole.Permissions.Add(new RolePermission { Permission_Id = role_permission.Id, PermissionDescription = role_permission.AccessPermissionDescription });
                         }
-
                         this.Roles.Add(_userRole);
-
-                        if (!this.IsSysAdmin)
+                    }
+                    else
+                    {
+                        User_Id = _user.Id;
+                        foreach (Role _role in _user.Roles)
                         {
-                            this.IsSysAdmin = _role.IsSysAdmin;
-                        }
+                            UserRole _userRole = new UserRole { Role_Id = _role.Id, RoleName = _role.RoleName };
 
+                            var roleAccessPermissions = context.RoleAccessPermissionRepository.Get().Where(role => role.Role.Id == _role.Id);
+
+                            foreach (RoleAccessPermission rolePermission in roleAccessPermissions)
+                            {
+                                _userRole.Permissions.Add(new RolePermission { Permission_Id = rolePermission.AccessPermission.Id, PermissionDescription = rolePermission.AccessPermission.AccessPermissionDescription });
+                            }
+
+                            this.Roles.Add(_userRole);
+
+                            if (!this.IsSysAdmin)
+                            {
+                                this.IsSysAdmin = _role.IsSysAdmin;
+                            }
+
+                        }
                     }
                 }
-
+                cacheRedisProvider.Set<RbacUser>(Username, this);
+                return;
             }
+
+            var cache = cacheRedisProvider.Get<RbacUser>(Username);
+            this.User_Id = cache.User_Id;
+            this.IsSysAdmin = cache.IsSysAdmin;
+            this.Roles = cache.Roles;
         }
 
         public bool HasPermission(string requiredPermission)

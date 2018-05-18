@@ -84,6 +84,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
@@ -144,6 +145,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Ss.Core\Ss.Core.csproj">
+      <Project>{8F7B60DD-7882-4B5D-AA50-2E0731ABAE87}</Project>
+      <Name>Ss.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Ss.Data.Repository\Ss.Data.Repository.csproj">
       <Project>{83112198-D9E2-4A4C-9A9E-CF0122A85594}</Project>
       <Name>Ss.Data.Repository</Name>
