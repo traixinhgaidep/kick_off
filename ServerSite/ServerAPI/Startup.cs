@@ -1,19 +1,24 @@
-﻿using Microsoft.Owin;
+﻿using System;
+using System.Threading.Tasks;
+using Microsoft.Owin;
+using Microsoft.Owin.Security.Google;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
-using ServerSite.Dependency;
+using ServerAPI.App_Start;
+using ServerAPI.Dependency;
 using Ss.Data.Repository.Interfaces;
-using System;
-using Unity;  //use load Resolve
+using Unity;
 
-namespace ServerSite
+[assembly: OwinStartup(typeof(ServerAPI.Startup))]
+
+namespace ServerAPI
 {
     public class Startup
     {
         public static OAuthBearerAuthenticationOptions OAuthBearerOptions { get; private set; }
         public static OAuthAuthorizationServerOptions OAuthServerOptions { get; private set; }
 
-        public void Configuration(IAppBuilder appBuilder)
+        public void Configuration(IAppBuilder app)
         {
             OAuthServerOptions = new OAuthAuthorizationServerOptions
             {
@@ -26,13 +31,15 @@ namespace ServerSite
 
             OAuthBearerOptions = new OAuthBearerAuthenticationOptions();
 
-            appBuilder.UseOAuthAuthorizationServer(OAuthServerOptions);
+            app.UseOAuthAuthorizationServer(OAuthServerOptions);
 
-            appBuilder.UseOAuthBearerAuthentication(OAuthBearerOptions);
+            app.UseOAuthBearerAuthentication(OAuthBearerOptions);
 
-            appBuilder.UseWebApi(WebConfig.Configurations());
-
-            
+            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            //{
+            //    ClientId = "",
+            //    ClientSecret = ""
+            //});
         }
     }
 }

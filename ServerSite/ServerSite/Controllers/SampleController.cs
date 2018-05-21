@@ -22,9 +22,10 @@ namespace ServerSite.Controllers
 
         }
 
-        [RbacAuthorize]
+
         public override IHttpActionResult GetAll()
         {
+            var httpPostedFile = Request;
             try
             {
                 //return Ok(this.context.UserRepository.Get());

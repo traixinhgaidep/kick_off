@@ -49,7 +49,6 @@
   <ItemGroup>
     <Compile Include="BaseRepository.cs" />
     <Compile Include="Databases\DatabaseContext.cs" />
-    <Compile Include="Databases\DBContextInitializer.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Interfaces\IRepositoryContext.cs" />
     <Compile Include="Migrations\201805170821100_InitialCreate.cs" />

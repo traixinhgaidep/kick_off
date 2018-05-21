@@ -1,17 +1,15 @@
-﻿using ServerSite.Dependency;
+﻿using ServerAPI.Dependency;
 using Ss.Data.Models;
 using Ss.Data.ModelViews;
 using Ss.Service.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using Unity;
 
-namespace ServerSite.Controllers
+namespace ServerAPI.Controllers
 {
     public abstract class BaseController<TModel, TView> : ApiController
        where TModel : BaseEntity, new()
