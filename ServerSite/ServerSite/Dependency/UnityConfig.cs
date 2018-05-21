@@ -1,4 +1,5 @@
 ﻿
+using Ss.Core.RedisCache;
 using Ss.Data.Enums;
 using Ss.Data.Models;
 using Ss.Data.Repository;
@@ -7,7 +8,9 @@ using Ss.Service;
 using Ss.Service.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using Unity;
+using Unity.Injection;
 
 namespace ServerSite.Dependency
 {
@@ -99,7 +102,10 @@ namespace ServerSite.Dependency
             {
                 checkUserDefault = database.Users.Find(1) != null;
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
+                checkUserDefault = true;
+            }
 
             if (!checkUserDefault)
             {
@@ -110,6 +116,12 @@ namespace ServerSite.Dependency
 
             container.RegisterInstance(database);
 
+
+            #endregion
+
+            #region Register Redis cache
+
+            container.RegisterType<ICacheProvider, RedisCacheProvider>(new InjectionConstructor(ConfigurationManager.AppSettings["redis.connection"]));
 
             #endregion
 

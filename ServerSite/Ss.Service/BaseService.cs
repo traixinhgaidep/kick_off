@@ -11,7 +11,9 @@ using System.Threading.Tasks;
 
 namespace Ss.Service
 {
-    public abstract class BaseService<TModel, TView> : IService<TModel, TView> where TModel : BaseEntity, new() where TView : BaseViewEntity, new()
+    public abstract class BaseService<TModel, TView> : IService<TModel, TView> 
+        where TModel : BaseEntity, new() 
+        where TView : BaseViewEntity, new()
     {
         protected readonly IRepository<TModel> BaseRepository;
         public BaseService(IRepository<TModel> repository)

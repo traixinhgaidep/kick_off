@@ -25,28 +25,29 @@ namespace ServerSite.ActionFilters
             string requiredPermission = String.Format("{0}-{1}", actionContext.ActionDescriptor.ControllerDescriptor.ControllerName.ToLower(), actionContext.ActionDescriptor.ActionName.ToLower());
 
             var principal = actionContext.RequestContext.Principal as ClaimsPrincipal;
-            var userName = principal.Identity.Name;
 
-            if (!string.IsNullOrEmpty(userName))
+            if (principal != null)
             {
-                RbacUser requestingUser = new RbacUser(userName);
+                RbacUser requestingUser = new RbacUser(principal.Identity.Name);
 
                 if (!requestingUser.HasPermission(requiredPermission) & !requestingUser.IsSysAdmin)
                 {
-                    string url = string.Format("{0}://{1}:{2}", actionContext.Request.RequestUri.Scheme, actionContext.Request.RequestUri.Host, actionContext.Request.RequestUri.Port);
-                    var response = actionContext.Request.CreateResponse(HttpStatusCode.Redirect);
-                    response.Headers.Location = new Uri(url + "/api/unauthorised");
-                    actionContext.Response = response;
+                    RedirectUrl(actionContext);
                 }
             }
             else
             {
-                string url = string.Format("{0}://{1}:{2}", actionContext.Request.RequestUri.Scheme, actionContext.Request.RequestUri.Host, actionContext.Request.RequestUri.Port);
-                var response = actionContext.Request.CreateResponse(HttpStatusCode.Redirect);
-                response.Headers.Location = new Uri(url + "/api/unauthorised");
-                actionContext.Response = response;
+                RedirectUrl(actionContext);
             }
 
+        }
+
+        private void RedirectUrl(HttpActionContext actionContext)
+        {
+            string url = string.Format("{0}://{1}:{2}", actionContext.Request.RequestUri.Scheme, actionContext.Request.RequestUri.Host, actionContext.Request.RequestUri.Port);
+            var response = actionContext.Request.CreateResponse(HttpStatusCode.Redirect);
+            response.Headers.Location = new Uri(url + "/api/unauthorised");
+            actionContext.Response = response;
         }
     }
 
