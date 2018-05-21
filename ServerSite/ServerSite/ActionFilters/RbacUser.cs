@@ -86,7 +86,7 @@ namespace ServerSite.ActionFilters
                         }
                     }
                 }
-                cacheRedisProvider.Set<RbacUser>(Username, this);
+                cacheRedisProvider.Set(Username, this);
                 return;
             }
 

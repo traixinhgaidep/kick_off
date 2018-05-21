@@ -8,7 +8,9 @@ using System.Threading.Tasks;
 
 namespace Ss.Service.Interfaces
 {
-    public interface IService<TModel, TView>  where TModel : IEntity, new() where TView : IViewEntity, new()
+    public interface IService<TModel, TView> 
+        where TModel : IEntity, new() 
+        where TView : IViewEntity, new()
     {
         IEnumerable<TView> Get(Expression<Func<TModel, bool>> filter = null, Func<IQueryable<TModel>, IOrderedQueryable<TModel>> orderBy = null, string includeProperties = "");
 
