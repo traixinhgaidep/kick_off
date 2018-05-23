@@ -18,7 +18,7 @@ namespace Ss.Data.Repository
             this.context = context;
             this.dbSet = context.Set<T>();
         }
-        public IEnumerable<T> Get(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includeProperties = "")
+        public virtual IEnumerable<T> Get(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includeProperties = "")
         {
 
             IQueryable<T> query = dbSet;
@@ -44,7 +44,7 @@ namespace Ss.Data.Repository
             }
         }
 
-        public T GetSingle(Expression<Func<T, bool>> predicate)
+        public virtual T GetSingle(Expression<Func<T, bool>> predicate)
         {
             IQueryable<T> query = dbSet;
             if (predicate != null)
@@ -52,6 +52,37 @@ namespace Ss.Data.Repository
                 query = query.Where(predicate);
             }
             return query.First();
+        }
+
+        public virtual T GetByID(object id)
+        {
+            return dbSet.Find(id);
+        }
+
+        public virtual void Insert(T entity)
+        {
+            dbSet.Add(entity);
+        }
+
+        public virtual void Delete(object id)
+        {
+            T entityToDelete = dbSet.Find(id);
+            Delete(entityToDelete);
+        }
+
+        public virtual void Delete(T entityToDelete)
+        {
+            if (context.Entry(entityToDelete).State == EntityState.Detached)
+            {
+                dbSet.Attach(entityToDelete);
+            }
+            dbSet.Remove(entityToDelete);
+        }
+
+        public virtual void Update(T entityToUpdate)
+        {
+            dbSet.Attach(entityToUpdate);
+            context.Entry(entityToUpdate).State = EntityState.Modified;
         }
 
         public void Save()
