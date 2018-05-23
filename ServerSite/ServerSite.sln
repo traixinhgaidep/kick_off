@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2003
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerSite", "ServerSite\ServerSite.csproj", "{4AFEF816-71F7-4C3D-B552-697D4478BDA6}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ss.Data", "Ss.Data\Ss.Data.csproj", "{983C2C2D-87A1-43EC-9285-BF0F96A0063D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ss.Data.Repository", "Ss.Data.Repository\Ss.Data.Repository.csproj", "{83112198-D9E2-4A4C-9A9E-CF0122A85594}"
@@ -25,10 +23,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4AFEF816-71F7-4C3D-B552-697D4478BDA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4AFEF816-71F7-4C3D-B552-697D4478BDA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4AFEF816-71F7-4C3D-B552-697D4478BDA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4AFEF816-71F7-4C3D-B552-697D4478BDA6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{983C2C2D-87A1-43EC-9285-BF0F96A0063D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{983C2C2D-87A1-43EC-9285-BF0F96A0063D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{983C2C2D-87A1-43EC-9285-BF0F96A0063D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -54,7 +48,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{4AFEF816-71F7-4C3D-B552-697D4478BDA6} = {D9A59BA1-C00E-4864-8BDC-716138F7A821}
 		{983C2C2D-87A1-43EC-9285-BF0F96A0063D} = {D9A59BA1-C00E-4864-8BDC-716138F7A821}
 		{83112198-D9E2-4A4C-9A9E-CF0122A85594} = {D9A59BA1-C00E-4864-8BDC-716138F7A821}
 		{8F7B60DD-7882-4B5D-AA50-2E0731ABAE87} = {D9A59BA1-C00E-4864-8BDC-716138F7A821}
@@ -62,7 +55,7 @@ Global
 		{06B48976-09FD-4F8D-84DE-C6B279136D4F} = {D9A59BA1-C00E-4864-8BDC-716138F7A821}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {6E5FA0E8-098C-4C76-BB61-82A541ECBEAC}
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
+		SolutionGuid = {6E5FA0E8-098C-4C76-BB61-82A541ECBEAC}
 	EndGlobalSection
 EndGlobal
