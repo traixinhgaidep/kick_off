@@ -47,14 +47,14 @@ namespace Ss.Core
             // Write and flush.
             Debug.Write(DateTime.Now.ToString("yyyy-MM-ddTHH:mm:sszzz"));
             Debug.Indent();
-            Debug.WriteLine(" Methold Name :" + stackTrace.GetFrame(1).GetMethod().Name + " ===> " + obj);
+            Debug.WriteLine(string.Format("[Methold Name: {0} ] ===> {1}", stackTrace.GetFrame(1).GetMethod().Name, obj.ToString()));
             Debug.Unindent();
             Debug.Flush();
 
             // listening 
             if (!string.IsNullOrEmpty(obj.ToString()) && ListeningLogDebug != null)
             {
-                ListeningLogDebug(string.Format(DateTime.Now.ToString("yyyy-MM-ddTHH:mm:sszzz") + stackTrace.GetFrame(1) + " ===> " + obj.ToString()));
+                ListeningLogDebug(string.Format(DateTime.Now.ToString("yyyy-MM-ddTHH:mm:sszzz") + string.Format("[Methold Name: {0} ] ===> {1}", stackTrace.GetFrame(1).GetMethod().Name, obj.ToString()) ));
             }
 
         }
