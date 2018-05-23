@@ -157,7 +157,7 @@
     <Compile Include="App_Start\OptionOAuthAuthorizationServerProvider.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\BaseController.cs" />
-    <Compile Include="Controllers\FileUploadController.cs" />
+    <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\UnauthorisedController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Dependency\UnityConfig.cs" />
