@@ -14,6 +14,16 @@ namespace Ss.Data.Repository.Interfaces
 
         T GetSingle(Expression<Func<T, bool>> predicate);
 
+        T GetByID(object id);
+
+        void Insert(T entity);
+
+        void Delete(object id);
+
+        void Delete(T entityToDelete);
+
+        void Update(T entityToUpdate);
+
         void Save();
     }
 }

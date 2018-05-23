@@ -32,22 +32,27 @@ namespace ServerAPI.ActionFilters
         public string Username { get; set; }
         private List<UserRole> Roles = new List<UserRole>();
 
+        
+        ICacheProvider cacheRedisProvider = UnityConfig.Container.Resolve<ICacheProvider>();
+        string extendedKeyCache;
         public RbacUser(string _username)
         {
+            extendedKeyCache = _username + "_roleKey";
             this.Username = _username;
             this.IsSysAdmin = false;
             GetDatabaseUserRolesPermissions();
+
         }
 
         private void GetDatabaseUserRolesPermissions()
         {
             IRepositoryContext context = UnityConfig.Container.Resolve<IRepositoryContext>();
-            ICacheProvider cacheRedisProvider = UnityConfig.Container.Resolve<ICacheProvider>();
 
-            bool checkMember = cacheRedisProvider.IsInCache(Username);
-            if (true)
+            bool checkMember = cacheRedisProvider.IsInCache(extendedKeyCache);
+            if (!checkMember)
             {
                 User _user = context.UserRepository.Get().Where(u => u.UserName == this.Username).FirstOrDefault();
+                List<string> listAccessPermissions = new List<string>();
                 if (_user != null && _user.Actflg == Actflg.Active)
                 {
                     Role isRoleRoot = _user.Roles.FirstOrDefault(r => r.RoleName == "Root");
@@ -57,8 +62,10 @@ namespace ServerAPI.ActionFilters
                         UserRole _userRole = new UserRole { Role_Id = isRoleRoot.Id, RoleName = isRoleRoot.RoleName };
                         foreach (AccessPermission role_permission in context.AccessPermissionRepository.Get())
                         {
+                            listAccessPermissions.Add(role_permission.AccessPermissionDescription);
                             _userRole.Permissions.Add(new RolePermission { Permission_Id = role_permission.Id, PermissionDescription = role_permission.AccessPermissionDescription });
                         }
+                        this.IsSysAdmin = true;
                         this.Roles.Add(_userRole);
                     }
                     else
@@ -72,6 +79,7 @@ namespace ServerAPI.ActionFilters
 
                             foreach (RoleAccessPermission rolePermission in roleAccessPermissions)
                             {
+                                listAccessPermissions.Add(rolePermission.AccessPermission.AccessPermissionDescription);
                                 _userRole.Permissions.Add(new RolePermission { Permission_Id = rolePermission.AccessPermission.Id, PermissionDescription = rolePermission.AccessPermission.AccessPermissionDescription });
                             }
 
@@ -85,26 +93,29 @@ namespace ServerAPI.ActionFilters
                         }
                     }
                 }
-                cacheRedisProvider.Set(Username, this);
-                return;
+                cacheRedisProvider.Set(extendedKeyCache, listAccessPermissions);
             }
-
-            var cache = cacheRedisProvider.Get<RbacUser>(Username);
-            this.User_Id = cache.User_Id;
-            this.IsSysAdmin = cache.IsSysAdmin;
-            this.Roles = cache.Roles;
         }
 
         public bool HasPermission(string requiredPermission)
         {
-            bool bFound = false;
-            foreach (UserRole role in this.Roles)
+            bool checkMember = cacheRedisProvider.IsInCache(extendedKeyCache);
+
+            if (checkMember)
             {
-                bFound = (role.Permissions.Where(p => p.PermissionDescription.ToLower() == requiredPermission.ToLower()).ToList().Count > 0);
-                if (bFound)
-                    break;
+                return (cacheRedisProvider.Get<List<string>>(extendedKeyCache).FirstOrDefault(x => x.ToLower() == requiredPermission.ToLower()) != null);
             }
-            return bFound;
+            else
+            {
+                bool bFound = false;
+                foreach (UserRole role in this.Roles)
+                {
+                    bFound = (role.Permissions.Where(p => p.PermissionDescription.ToLower() == requiredPermission.ToLower()).ToList().Count > 0);
+                    if (bFound)
+                        break;
+                }
+                return bFound;
+            }
         }
 
     }

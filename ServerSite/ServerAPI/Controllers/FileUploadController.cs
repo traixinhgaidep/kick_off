@@ -9,8 +9,10 @@ using System.Web.Http;
 
 namespace ServerAPI.Controllers
 {
+    [RoutePrefix("api/fileupload")]
     public class FileUploadController : ApiController
     {
+
         [HttpPost]
         public KeyValuePair<bool, string> UploadFile()
         {
