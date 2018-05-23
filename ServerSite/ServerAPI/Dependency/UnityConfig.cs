@@ -132,7 +132,6 @@ namespace ServerAPI.Dependency
 
             #endregion
 
-
             #region Register Services
 
             container.RegisterType<IUserService, UserService>();

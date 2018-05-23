@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using ServerAPI.ActionFilters;
+using Ss.Core;
 using Ss.Data.Models;
 using Ss.Data.ModelViews;
 using Ss.Service.Interfaces;
@@ -79,6 +80,8 @@ namespace ServerAPI.Controllers
         [RbacAuthorize]
         public override IHttpActionResult GetAll()
         {
+            LogHelper.LogDebug("Request GetAll user");
+
             return base.GetAll();
         }
 
