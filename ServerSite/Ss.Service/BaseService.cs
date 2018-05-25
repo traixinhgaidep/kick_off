@@ -11,8 +11,8 @@ using System.Threading.Tasks;
 
 namespace Ss.Service
 {
-    public abstract class BaseService<TModel, TView> : IService<TModel, TView> 
-        where TModel : BaseEntity, new() 
+    public abstract class BaseService<TModel, TView> : IService<TModel, TView>
+        where TModel : BaseEntity, new()
         where TView : BaseViewEntity, new()
     {
         protected readonly IRepository<TModel> BaseRepository;
@@ -20,7 +20,7 @@ namespace Ss.Service
         {
             BaseRepository = repository;
         }
-        public IEnumerable<TView> Get(Expression<Func<TModel, bool>> filter = null, Func<IQueryable<TModel>, IOrderedQueryable<TModel>> orderBy = null, string includeProperties = "")
+        public virtual IEnumerable<TView> Get(Expression<Func<TModel, bool>> filter = null, Func<IQueryable<TModel>, IOrderedQueryable<TModel>> orderBy = null, string includeProperties = "")
         {
             IEnumerable<TModel> results = BaseRepository.Get(filter, orderBy, includeProperties);
             return results.Select(ConvertToView);
@@ -37,9 +37,40 @@ namespace Ss.Service
             return view;
         }
 
-        public TModel GetSingle(Expression<Func<TModel, bool>> predicate)
+        public virtual TModel GetSingle(Expression<Func<TModel, bool>> predicate)
         {
             return BaseRepository.GetSingle(predicate);
+        }
+
+        public virtual TView GetByID(object id)
+        {
+            return ConvertToView(BaseRepository.GetByID(id));
+        }
+
+
+        public virtual void Delete(object id)
+        {
+            BaseRepository.Delete(id);
+        }
+
+        public virtual void Save()
+        {
+            BaseRepository.Save();
+        }
+
+        public virtual void Insert(TModel entity)
+        {
+            BaseRepository.Insert(entity);
+        }
+
+        public virtual void Update(TModel entityToUpdate)
+        {
+            BaseRepository.Update(entityToUpdate);
+        }
+
+        public virtual void Delete(TModel entityToDelete)
+        {
+            BaseRepository.Delete(entityToDelete);
         }
 
         #endregion
